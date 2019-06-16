@@ -9,7 +9,6 @@ output: html_document
 
 ```{r, echo=TRUE}
 raw_df = read.csv("activity.csv")
-raw_df$date = as.Date(raw_df$date)
 
 ```
 
@@ -78,6 +77,7 @@ The new mean and median of the total number of steps is:
 ```{r , echo=TRUE}
 print(mean(ntot_steps))
 print(median(ntot_steps))
+
 ```
 
 These values have changed significantly. As I have inputed the average value to 
@@ -86,7 +86,7 @@ serveral days, the median now matches the average.
 ## Are there differences in activity patterns between weekdays and weekends?
 
 ```{r , echo=TRUE}
-wd = weekdays(new_df$date)
+wd = weekdays(as.Date(new_df$date))
 wd[wd == "Saturday"] = "weekend"
 wd[wd == "Sunday"] = "weekend"
 wd[wd != "weekend"] = "weekday"
@@ -98,9 +98,9 @@ we_df = new_df[wd == "weekend",]
 avg_steps_wd = tapply(wd_df$steps,wd_df$interval,mean,na.rm = TRUE)
 avg_steps_we = tapply(we_df$steps,we_df$interval,mean,na.rm = TRUE)
 
-par(mfrow=c(1,2))
+
+par(mfrow=c(2,1))
 plot(avg_steps_wd, type = "l",main="Weekday")
-plot(avg_steps_wd, type = "l",main="Weekend")
+plot(avg_steps_we, type = "l",main="Weekend")
 
 ```
-
